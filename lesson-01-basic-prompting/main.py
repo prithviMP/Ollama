@@ -54,6 +54,21 @@ except ImportError:
     GOOGLE_AVAILABLE = False
     print("⚠️  Google Gemini not available. Install with: pip install langchain-google-genai")
 
+try:
+    from langchain_deepseek import ChatDeepSeek
+    DEEPSEEK_AVAILABLE = True
+except ImportError:
+    DEEPSEEK_AVAILABLE = False
+    print("⚠️  DeepSeek not available. Install with: pip install langchain-deepseek")
+
+# OpenRouter can use OpenAI client with custom base URL
+try:
+    from langchain_openai import ChatOpenAI
+    OPENROUTER_AVAILABLE = OPENAI_AVAILABLE  # Reuse OpenAI availability
+except ImportError:
+    OPENROUTER_AVAILABLE = False
+    print("⚠️  OpenRouter not available. Install with: pip install langchain-openai")
+
 
 def setup_llm_providers():
     """
@@ -111,6 +126,31 @@ def setup_llm_providers():
         except Exception as e:
             print(f"❌ Google Gemini configuration failed: {e}")
     
+    # DeepSeek Setup
+    if DEEPSEEK_AVAILABLE and os.getenv("DEEPSEEK_API_KEY"):
+        try:
+            providers["deepseek"] = ChatDeepSeek(
+                model=os.getenv("DEEPSEEK_MODEL", "deepseek-chat"),
+                temperature=float(os.getenv("DEEPSEEK_TEMPERATURE", 0.7)),
+                api_key=os.getenv("DEEPSEEK_API_KEY")
+            )
+            print("✅ DeepSeek configured successfully")
+        except Exception as e:
+            print(f"❌ DeepSeek configuration failed: {e}")
+    
+    # OpenRouter Setup (supports multiple models including DeepSeek)
+    if OPENROUTER_AVAILABLE and os.getenv("OPENROUTER_API_KEY"):
+        try:
+            providers["openrouter"] = ChatOpenAI(
+                model=os.getenv("OPENROUTER_MODEL", "deepseek/deepseek-chat"),
+                temperature=float(os.getenv("OPENROUTER_TEMPERATURE", 0.7)),
+                api_key=os.getenv("OPENROUTER_API_KEY"),
+                base_url="https://openrouter.ai/api/v1"
+            )
+            print("✅ OpenRouter configured successfully")
+        except Exception as e:
+            print(f"❌ OpenRouter configuration failed: {e}")
+    
     if not providers:
         print("❌ No LLM providers available. Please check your API keys and installations.")
         return None
@@ -128,7 +168,7 @@ def basic_llm_example(llm):
     
     try:
         # Simple prompt
-        prompt = "What is artificial intelligence in one sentence?"
+        prompt = "What is the average runrate of virat kohli in odi cricket?"
         print(f"Prompt: {prompt}")
         
         result = llm.invoke(prompt)
@@ -161,11 +201,11 @@ def prompt_template_example(llm):
         
         # Format the prompt with specific values
         formatted_prompt = prompt.format(
-            role="senior software engineer",
-            domain="machine learning",
-            task="explain",
-            topic="neural networks",
-            style="simple and clear",
+            role="Commentator",
+            domain="cricket",
+            task="comment on the performance of virat kohli in odi cricket",
+            topic="virat kohli",
+            style="Sasuke Uchiha",
             word_limit="100"
         )
         
@@ -279,7 +319,7 @@ def interactive_demo(providers):
         
         print(f"\nUsing {selected_provider}...")
         
-        if "chat" in selected_provider or "anthropic" in selected_provider or "google" in selected_provider:
+        if "chat" in selected_provider or "anthropic" in selected_provider or "google" in selected_provider or "deepseek" in selected_provider or "openrouter" in selected_provider:
             # Use chat interface for chat models
             messages = [HumanMessage(content=user_prompt)]
             response = llm.invoke(messages)
@@ -315,7 +355,7 @@ def main():
     
     # Find text and chat models
     for name, llm in providers.items():
-        if "chat" in name or "anthropic" in name or "google" in name:
+        if "chat" in name or "anthropic" in name or "google" in name or "deepseek" in name or "openrouter" in name:
             if chat_llm is None:
                 chat_llm = llm
         else:
@@ -328,17 +368,17 @@ def main():
     
     # Run examples
     if text_llm:
-        basic_llm_example(text_llm)
-        prompt_template_example(text_llm)
+       # basic_llm_example(text_llm)
+       prompt_template_example(text_llm)
     
-    if chat_llm:
-        chat_model_example(chat_llm)
-        chat_prompt_template_example(chat_llm)
+    # if chat_llm:
+    #     chat_model_example(chat_llm)
+    #     chat_prompt_template_example(chat_llm)
     
-    # Interactive demo
+    # # Interactive demo
     interactive_demo(providers)
     
-    print("\n🎉 Lesson 1 completed! Check out the exercises to practice more.")
+    # print("\n🎉 Lesson 1 completed! Check out the exercises to practice more.")
 
 
 if __name__ == "__main__":

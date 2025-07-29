@@ -70,11 +70,45 @@ def setup_llm_providers() -> Dict[str, Any]:
     except Exception as e:
         print(f"❌ Ollama configuration failed: {e}")
     
+    # Google Gemini Setup
+    if os.getenv("GOOGLE_API_KEY"):
+        try:
+            from langchain_google_genai import ChatGoogleGenerativeAI
+            
+            providers["google"] = ChatGoogleGenerativeAI(
+                model=os.getenv("GOOGLE_MODEL", "gemini-2.0-flash"),
+                temperature=float(os.getenv("GOOGLE_TEMPERATURE", 0.7)),
+                google_api_key=os.getenv("GOOGLE_API_KEY")
+            )
+            print("✅ Google Gemini configured successfully")
+        except ImportError:
+            print("⚠️  Google Gemini package not installed. Run: pip install langchain-google-genai")
+        except Exception as e:
+            print(f"❌ Google Gemini configuration failed: {e}")
+    
+    # DeepSeek Setup
+    if os.getenv("DEEPSEEK_API_KEY"):
+        try:
+            from langchain_deepseek import ChatDeepSeek
+            
+            providers["deepseek"] = ChatDeepSeek(
+                model=os.getenv("DEEPSEEK_MODEL", "deepseek-chat"),
+                temperature=float(os.getenv("DEEPSEEK_TEMPERATURE", 0.7)),
+                api_key=os.getenv("DEEPSEEK_API_KEY")
+            )
+            print("✅ DeepSeek configured successfully")
+        except ImportError:
+            print("⚠️  DeepSeek package not installed. Run: pip install langchain-deepseek")
+        except Exception as e:
+            print(f"❌ DeepSeek configuration failed: {e}")
+    
     if not providers:
         print("❌ No LLM providers available. Please check your API keys and installations.")
         print("Available options:")
         print("  - Set OPENAI_API_KEY for OpenAI models")
-        print("  - Set ANTHROPIC_API_KEY for Claude models") 
+        print("  - Set ANTHROPIC_API_KEY for Claude models")
+        print("  - Set GOOGLE_API_KEY for Google Gemini models")
+        print("  - Set DEEPSEEK_API_KEY for DeepSeek models")
         print("  - Install and run Ollama for local models")
     
     return providers
@@ -107,9 +141,9 @@ def get_preferred_llm(providers: Dict[str, Any], prefer_chat: bool = False) -> O
     
     # Priority order for different types
     if prefer_chat:
-        priority = ["chat_openai", "anthropic", "ollama", "openai"]
+        priority = ["chat_openai", "anthropic", "google", "deepseek", "ollama", "openai"]
     else:
-        priority = ["openai", "chat_openai", "anthropic", "ollama"]
+        priority = ["openai", "chat_openai", "anthropic", "google", "deepseek", "ollama"]
     
     for provider_name in priority:
         if provider_name in providers:
@@ -133,6 +167,12 @@ def validate_provider_config() -> Dict[str, bool]:
     
     # Check Anthropic
     validation["anthropic"] = bool(os.getenv("ANTHROPIC_API_KEY"))
+    
+    # Check Google Gemini
+    validation["google"] = bool(os.getenv("GOOGLE_API_KEY"))
+    
+    # Check DeepSeek
+    validation["deepseek"] = bool(os.getenv("DEEPSEEK_API_KEY"))
     
     # Check Ollama (assume available if no error in import)
     try:
