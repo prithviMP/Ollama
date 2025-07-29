@@ -47,6 +47,13 @@ except ImportError:
     OLLAMA_AVAILABLE = False
     print("⚠️  Ollama not available. Install with: pip install langchain-ollama")
 
+try:
+    from langchain_google_genai import ChatGoogleGenerativeAI
+    GOOGLE_AVAILABLE = True
+except ImportError:
+    GOOGLE_AVAILABLE = False
+    print("⚠️  Google Gemini not available. Install with: pip install langchain-google-genai")
+
 
 def setup_llm_providers():
     """
@@ -91,6 +98,18 @@ def setup_llm_providers():
             print("✅ Ollama configured successfully")
         except Exception as e:
             print(f"❌ Ollama configuration failed: {e}")
+    
+    # Google Gemini Setup
+    if GOOGLE_AVAILABLE and os.getenv("GOOGLE_API_KEY"):
+        try:
+            providers["google"] = ChatGoogleGenerativeAI(
+                model=os.getenv("GOOGLE_MODEL", "gemini-2.0-flash"),
+                temperature=float(os.getenv("GOOGLE_TEMPERATURE", 0.7)),
+                google_api_key=os.getenv("GOOGLE_API_KEY")
+            )
+            print("✅ Google Gemini configured successfully")
+        except Exception as e:
+            print(f"❌ Google Gemini configuration failed: {e}")
     
     if not providers:
         print("❌ No LLM providers available. Please check your API keys and installations.")
@@ -260,7 +279,7 @@ def interactive_demo(providers):
         
         print(f"\nUsing {selected_provider}...")
         
-        if "chat" in selected_provider or "anthropic" in selected_provider:
+        if "chat" in selected_provider or "anthropic" in selected_provider or "google" in selected_provider:
             # Use chat interface for chat models
             messages = [HumanMessage(content=user_prompt)]
             response = llm.invoke(messages)
@@ -296,7 +315,7 @@ def main():
     
     # Find text and chat models
     for name, llm in providers.items():
-        if "chat" in name or "anthropic" in name:
+        if "chat" in name or "anthropic" in name or "google" in name:
             if chat_llm is None:
                 chat_llm = llm
         else:
