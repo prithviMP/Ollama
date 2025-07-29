@@ -114,7 +114,7 @@ def demonstrate_few_shot_prompting(llm):
         input_variables=["input_emotion"]
     )
     
-    test_emotions = ["excited", "tired", "worried"]
+    test_emotions = ["cool", "sleepy", "scared"]
     
     for emotion in test_emotions:
         formatted_prompt = few_shot_prompt.format(input_emotion=emotion)
@@ -157,7 +157,7 @@ def demonstrate_few_shot_prompting(llm):
         input_variables=["new_code"]
     )
     
-    test_code = """def quicksort(arr):
+    test_code = """def chiragSort(arr):
     if len(arr) <= 1:
         return arr
     pivot = arr[len(arr) // 2]
@@ -296,8 +296,8 @@ def demonstrate_structured_output_parsing(chat_llm):
     )
     
     test_texts = [
-        "Dr. Sarah Johnson is a 35-year-old neurosurgeon working at Johns Hopkins Hospital in Baltimore.",
-        "Meet Alex Chen, 28, a software engineer at Google who loves hiking and lives in San Francisco.",
+        "Prithviraj poillai is a 31-year-old Remote instructor working at Scaler Academy in Bangalore.",
+        "Chirah jain, 22, a software engineer at Google who loves hiking and lives in San Francisco.",
         "Professor Maria Rodriguez, aged 52, teaches literature at Harvard University and has written several books."
     ]
     
@@ -378,7 +378,7 @@ def demonstrate_advanced_prompting_patterns(chat_llm):
         "Security Expert": "You are a cybersecurity expert specializing in application security and threat assessment."
     }
     
-    problem = "How would you approach building a real-time chat application that needs to handle 1 million concurrent users?"
+    problem = "How would you approach building a real-time dating application that needs to handle 1 million concurrent users?"
     
     for role, persona in expert_roles.items():
         print(f"\n{role} Perspective:")
@@ -476,7 +476,7 @@ Respond as if you're sitting across from them at a coffee shop, using everyday l
         
         if response:
             # Show first 150 characters as preview
-            preview = response.strip()[:150] + "..." if len(response) > 150 else response.strip()
+            preview = response.strip()[:1000] + "..." if len(response) > 1000 else response.strip()
             print(f"Response: {preview}")
         print("-" * 50)
     
@@ -636,11 +636,11 @@ def main():
     
     try:
         # Run all demonstrations
-        demonstrate_few_shot_prompting(demo_llm)
-        demonstrate_chain_of_thought(demo_llm)
-        demonstrate_structured_output_parsing(demo_chat_llm)
-        demonstrate_advanced_prompting_patterns(demo_chat_llm)
-        demonstrate_prompt_optimization(demo_llm, demo_chat_llm)
+        #demonstrate_few_shot_prompting(demo_llm)
+        #demonstrate_chain_of_thought(demo_llm)
+        #demonstrate_structured_output_parsing(demo_chat_llm)
+        #demonstrate_advanced_prompting_patterns(demo_chat_llm)
+        # demonstrate_prompt_optimization(demo_llm, demo_chat_llm)
         
         # Interactive lab
         print("\n🎉 Core demonstrations completed!")
