@@ -1,0 +1,100 @@
+Chroma Database Tutorial: Getting Started
+
+Chroma is an open-source embedding database that makes it easy to build LLM applications. It provides a simple API for storing documents with their embeddings and performing similarity searches with built-in support for metadata filtering.
+
+Key Features of Chroma:
+
+1. Simple API Design
+   - Easy to use Python client
+   - Intuitive document and collection management
+   - Built-in embedding generation
+
+2. Persistence Options
+   - In-memory for development and testing
+   - Local file system persistence
+   - Server mode for production deployments
+
+3. Metadata Support
+   - Rich metadata filtering capabilities
+   - Support for complex queries
+   - Custom metadata schemas
+
+4. Integration Friendly
+   - Works seamlessly with LangChain
+   - Compatible with popular embedding models
+   - RESTful API for language-agnostic access
+
+Basic Usage Examples:
+
+Creating a Collection:
+```python
+import chromadb
+client = chromadb.Client()
+collection = client.create_collection("my_documents")
+```
+
+Adding Documents:
+```python
+collection.add(
+    documents=["Document 1 text", "Document 2 text"],
+    metadatas=[{"source": "web"}, {"source": "pdf"}],
+    ids=["doc1", "doc2"]
+)
+```
+
+Querying:
+```python
+results = collection.query(
+    query_texts=["search query"],
+    n_results=5,
+    where={"source": "web"}
+)
+```
+
+Advanced Features:
+
+1. Custom Embedding Functions
+   - Use your own embedding models
+   - Support for different embedding providers
+   - Batch processing for efficiency
+
+2. Collection Management
+   - Create, update, and delete collections
+   - Collection metadata and configuration
+   - Backup and restore capabilities
+
+3. Filtering and Search
+   - Complex metadata queries
+   - Hybrid search capabilities
+   - Distance-based filtering
+
+Best Practices:
+
+1. Collection Design
+   - Use meaningful collection names
+   - Plan your metadata schema carefully
+   - Consider collection size limits
+
+2. Document Management
+   - Use consistent document IDs
+   - Include relevant metadata
+   - Chunk large documents appropriately
+
+3. Performance Optimization
+   - Batch operations when possible
+   - Use appropriate embedding dimensions
+   - Monitor collection performance
+
+4. Production Deployment
+   - Use persistent storage
+   - Implement proper backup strategies
+   - Monitor disk usage and performance
+
+Common Use Cases:
+- Document search and retrieval
+- Question answering systems
+- Content recommendation
+- Semantic similarity analysis
+- Knowledge base applications
+
+Chroma's simplicity and powerful features make it an excellent choice for developers building LLM-powered applications that require efficient vector storage and retrieval capabilities.

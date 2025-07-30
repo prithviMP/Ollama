@@ -1,0 +1,43 @@
+[tool.poetry]
+name = "lesson-05-document-processing"
+version = "0.1.0"
+description = "LangChain Lesson 5: Document Processing & Text Splitters"
+authors = ["LangChain Course"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.11,<3.12"
+langchain = "^0.3.0"
+langchain-openai = "^0.3.3"
+langchain-anthropic = "^0.3.0"
+langchain-ollama = "^0.3.0"
+langchain-google-genai = "^2.1.0"
+langchain-deepseek = "^0.1.0"
+langchain-community = "^0.3.0"
+langchain-core = "^0.3.33"
+python-dotenv = "^1.0.0"
+pydantic = "^2.5.0"
+pydantic-settings = "^2.1.0"
+
+# Document Processing dependencies
+pypdf = "^3.17.0"
+python-docx = "^1.1.0"
+python-pptx = "^0.6.23"
+openpyxl = "^3.1.2"
+beautifulsoup4 = "^4.12.2"
+requests = "^2.31.0"
+lxml = "^4.9.4"
+html2text = "^2025.1.2"
+
+# Text processing
+tiktoken = "^0.7.0"
+nltk = "^3.8.1"
+
+# Additional utilities
+chardet = "^5.2.0"
+filetype = "^1.2.0"
+pathvalidate = "^3.2.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api" 

@@ -1,172 +1,312 @@
-# Lesson 7: RAG (Retrieval Augmented Generation) Systems with LangChain
+# Lesson 7: RAG (Retrieval Augmented Generation) Systems
 
 ## 🎯 Learning Objectives
 
 By the end of this lesson, you will be able to:
-- Build complete RAG systems from document ingestion to answer generation
+- Build complete RAG systems combining retrieval and generation
 - Implement advanced RAG patterns and optimization techniques
-- Design multi-query retrieval strategies for comprehensive information gathering
-- Integrate conversation memory with RAG for contextual Q&A
-- Deploy production-ready RAG applications with monitoring and evaluation
+- Design multi-modal RAG systems with diverse data sources
+- Create production-ready RAG applications with monitoring and evaluation
+- Optimize RAG performance for accuracy, speed, and cost-effectiveness
 
 ## 📚 Concepts Covered
 
 ### 1. RAG Fundamentals
-- Understanding the retrieval-augmented generation paradigm
-- RAG architecture patterns and data flow
-- Chunking strategies for optimal retrieval
-- Context window management and optimization
+- Understanding retrieval-augmented generation architecture
+- RAG vs fine-tuning trade-offs and use cases
+- Document ingestion and preprocessing pipelines
+- Query understanding and intent classification
 
-### 2. Basic RAG Implementation
-- Document loading and preprocessing pipeline
-- Vector store creation and management
-- Retrieval chain configuration
-- Generation chain with retrieved context
+### 2. Retrieval Strategies
+- Dense retrieval with vector similarity search
+- Sparse retrieval with keyword matching (BM25)
+- Hybrid retrieval combining dense and sparse methods
+- Multi-stage retrieval with re-ranking systems
 
-### 3. Advanced RAG Patterns
-- Multi-query retrieval for comprehensive coverage
-- Re-ranking and relevance scoring
-- Query expansion and reformulation
-- Hierarchical retrieval strategies
+### 3. Generation Enhancement
+- Context-aware prompt engineering for RAG
+- Retrieval context integration techniques
+- Handling long contexts and context compression
+- Citation and source attribution systems
 
-### 4. RAG with Memory Integration
-- Conversation-aware RAG systems
-- Session management across interactions
-- Context accumulation and summarization
-- Multi-turn query understanding
+### 4. Advanced RAG Patterns
+- Conversational RAG with memory management
+- Multi-document synthesis and comparison
+- Hierarchical retrieval for large document collections
+- Real-time RAG with streaming responses
 
-### 5. Production RAG Systems
-- Performance optimization and caching
-- Answer quality evaluation and monitoring
-- Cost optimization strategies
-- Scaling RAG for high-volume applications
+### 5. RAG Optimization & Evaluation
+- Retrieval quality metrics (precision, recall, MRR)
+- Generation quality evaluation (faithfulness, relevance)
+- End-to-end RAG evaluation frameworks
+- A/B testing and continuous improvement
+
+### 6. Production RAG Systems
+- Scalable RAG architecture patterns
+- Caching strategies for retrieval and generation
+- Monitoring and observability for RAG systems
+- Cost optimization and performance tuning
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Completed Lessons 1-6 (through Vector Stores)
-- Understanding of information retrieval concepts
-- Experience with document processing and embeddings
+- Completed Lessons 1-6 (especially Vector Stores lesson)
+- Understanding of embedding models and vector databases
+- Familiarity with document processing and chunking strategies
+- Basic knowledge of information retrieval concepts
 
 ### Setup
+1. Navigate to this lesson directory:
 ```bash
 cd lesson-07-rag-systems
-poetry install && poetry shell
+```
+
+2. Install dependencies:
+```bash
+poetry install
+poetry shell
+```
+
+3. Set up environment variables:
+```bash
 cp env.example .env
+# Edit .env file with your API keys
+```
+
+4. Run the main lesson:
+```bash
 python main.py
 ```
 
 ## 📝 Code Examples
 
-### Basic RAG System
+### Basic RAG Chain
 ```python
 from langchain.chains import RetrievalQA
 from langchain.vectorstores import Chroma
 from langchain.embeddings import OpenAIEmbeddings
+from langchain.llms import OpenAI
 
-# Set up vector store with documents
-vectorstore = Chroma.from_documents(
-    documents=processed_docs,
-    embedding=OpenAIEmbeddings()
+# Set up vector store
+embeddings = OpenAIEmbeddings()
+vectorstore = Chroma(
+    persist_directory="./chroma_db",
+    embedding_function=embeddings
 )
 
 # Create RAG chain
 qa_chain = RetrievalQA.from_chain_type(
-    llm=llm,
+    llm=OpenAI(temperature=0),
     chain_type="stuff",
-    retriever=vectorstore.as_retriever(search_kwargs={"k": 4})
+    retriever=vectorstore.as_retriever(search_kwargs={"k": 4}),
+    return_source_documents=True
 )
 
-# Ask questions
-answer = qa_chain.run("What are the main concepts in machine learning?")
+# Query the system
+result = qa_chain({"query": "What are the key benefits of RAG?"})
+print(result["result"])
 ```
 
-### Advanced RAG with Custom Retrieval
+### Advanced RAG with Re-ranking
+```python
+from langchain.retrievers import ContextualCompressionRetriever
+from langchain.retrievers.document_compressors import LLMChainExtractor
+
+class AdvancedRAGSystem:
+    def __init__(self, vectorstore, llm):
+        self.vectorstore = vectorstore
+        self.llm = llm
+        self.setup_retriever()
+        self.setup_chain()
+    
+    def setup_retriever(self):
+        # Base retriever
+        base_retriever = self.vectorstore.as_retriever(
+            search_kwargs={"k": 10}
+        )
+        
+        # Add compression/re-ranking
+        compressor = LLMChainExtractor.from_llm(self.llm)
+        self.retriever = ContextualCompressionRetriever(
+            base_compressor=compressor,
+            base_retriever=base_retriever
+        )
+    
+    def setup_chain(self):
+        self.qa_chain = RetrievalQA.from_chain_type(
+            llm=self.llm,
+            chain_type="stuff",
+            retriever=self.retriever,
+            return_source_documents=True,
+            chain_type_kwargs={
+                "prompt": self.create_custom_prompt()
+            }
+        )
+    
+    def create_custom_prompt(self):
+        template = """Use the following pieces of context to answer the question. 
+        If you don't know the answer, just say you don't know.
+        
+        Context: {context}
+        
+        Question: {question}
+        
+        Answer with citations:"""
+        
+        return PromptTemplate(
+            template=template,
+            input_variables=["context", "question"]
+        )
+    
+    def query(self, question: str):
+        return self.qa_chain({"query": question})
+```
+
+### Conversational RAG
 ```python
 from langchain.chains import ConversationalRetrievalChain
 from langchain.memory import ConversationBufferMemory
 
-# Memory for conversation context
-memory = ConversationBufferMemory(
-    memory_key="chat_history",
-    return_messages=True
-)
-
-# Advanced RAG with conversation
-qa_chain = ConversationalRetrievalChain.from_llm(
-    llm=llm,
-    retriever=vectorstore.as_retriever(),
-    memory=memory,
-    return_source_documents=True
-)
-
-# Multi-turn conversation
-result = qa_chain({"question": "Tell me about neural networks"})
-followup = qa_chain({"question": "How do they learn?"})
-```
-
-### Production RAG System
-```python
-class ProductionRAGSystem:
-    def __init__(self, config):
-        self.vectorstore = self._setup_vectorstore(config)
-        self.llm = self._setup_llm(config)
-        self.retriever = self._setup_retriever(config)
-        self.chain = self._setup_chain()
-        self.evaluator = RAGEvaluator()
-    
-    def query(self, question, user_id=None):
-        # Retrieve relevant documents
-        docs = self.retriever.get_relevant_documents(question)
-        
-        # Generate answer with sources
-        response = self.chain.run(
-            question=question,
-            context=docs
+class ConversationalRAG:
+    def __init__(self, vectorstore, llm):
+        self.memory = ConversationBufferMemory(
+            memory_key="chat_history",
+            return_messages=True,
+            output_key="answer"
         )
         
-        # Log and evaluate
-        self._log_interaction(question, response, docs)
-        quality_score = self.evaluator.evaluate(question, response, docs)
-        
+        self.chain = ConversationalRetrievalChain.from_llm(
+            llm=llm,
+            retriever=vectorstore.as_retriever(),
+            memory=self.memory,
+            return_source_documents=True
+        )
+    
+    def chat(self, question: str):
+        response = self.chain({"question": question})
         return {
-            "answer": response,
-            "sources": docs,
-            "quality_score": quality_score
+            "answer": response["answer"],
+            "sources": response["source_documents"]
         }
+    
+    def clear_history(self):
+        self.memory.clear()
+```
+
+### Multi-Modal RAG
+```python
+class MultiModalRAG:
+    def __init__(self):
+        self.text_vectorstore = None
+        self.image_vectorstore = None
+        self.table_vectorstore = None
+    
+    def ingest_documents(self, documents):
+        """Process different document types"""
+        for doc in documents:
+            if doc.type == "text":
+                self.process_text_document(doc)
+            elif doc.type == "image":
+                self.process_image_document(doc)
+            elif doc.type == "table":
+                self.process_table_document(doc)
+    
+    def hybrid_search(self, query, modalities=["text"]):
+        """Search across multiple modalities"""
+        results = []
+        
+        if "text" in modalities and self.text_vectorstore:
+            text_results = self.text_vectorstore.similarity_search(query, k=3)
+            results.extend(text_results)
+        
+        if "image" in modalities and self.image_vectorstore:
+            image_results = self.image_vectorstore.similarity_search(query, k=2)
+            results.extend(image_results)
+        
+        return self.rank_and_filter_results(results)
 ```
 
 ## 🏋️ Exercises
 
 ### Exercise 1: Document Q&A System
-Build a complete Q&A system for a specific document collection.
+Build a comprehensive RAG system for technical documentation with proper chunking and retrieval strategies.
 
-### Exercise 2: Multi-Domain RAG
-Create a RAG system that handles questions across different knowledge domains.
+### Exercise 2: Multi-Document Synthesis
+Create a system that can compare and synthesize information from multiple retrieved documents.
 
-### Exercise 3: Conversational RAG Bot
-Implement a chatbot that maintains conversation context while retrieving information.
+### Exercise 3: Conversational Knowledge Assistant
+Implement a conversational RAG system with memory management and follow-up question handling.
 
-### Exercise 4: RAG Quality Evaluation
-Design metrics and evaluation systems for RAG answer quality and relevance.
+### Exercise 4: RAG Evaluation Framework
+Develop an evaluation system to measure retrieval quality, generation faithfulness, and overall RAG performance.
 
-### Exercise 5: Scalable RAG Architecture
-Build a production-ready RAG system with monitoring and optimization.
+### Exercise 5: Production RAG Pipeline
+Design a production-ready RAG system with monitoring, caching, and real-time document updates.
+
+### Exercise 6: Domain-Specific RAG
+Build a specialized RAG system for a specific domain (legal, medical, financial) with custom preprocessing.
+
+### Exercise 7: Hybrid Search Implementation
+Implement a hybrid retrieval system combining dense embeddings with sparse keyword search.
+
+## 📖 Additional Resources
+
+- [RAG Survey Paper](https://arxiv.org/abs/2005.11401)
+- [LangChain RAG Tutorial](https://python.langchain.com/docs/use_cases/question_answering/)
+- [RAG Evaluation Methods](https://docs.ragas.io/)
+- [Advanced RAG Techniques](https://blog.langchain.dev/semi-structured-multi-modal-rag/)
+- [Production RAG Best Practices](https://www.pinecone.io/learn/rag-best-practices/)
+
+## 🔗 Next Steps
+
+After completing this lesson, you'll be ready to:
+- Build enterprise-grade RAG applications
+- Explore advanced retrieval techniques like graph-based RAG
+- Implement domain-specific RAG systems
+- Scale RAG systems for production workloads
 
 ## 💡 Key Takeaways
 
-1. **Retrieval Quality**: High-quality retrieval is crucial for accurate answer generation
-2. **Context Management**: Balance retrieved content with conversation context effectively
-3. **Evaluation**: Continuous evaluation ensures RAG system quality and reliability
-4. **Optimization**: Multiple optimization layers improve both quality and performance
-5. **User Experience**: Design RAG systems with clear source attribution and confidence indicators
+1. **Architecture Matters**: Good RAG design balances retrieval quality with generation coherence
+2. **Chunking Strategy**: Document preprocessing significantly impacts retrieval performance
+3. **Hybrid Approaches**: Combining multiple retrieval methods often outperforms single approaches
+4. **Context Management**: Effective context compression and organization improve generation quality
+5. **Evaluation is Critical**: Systematic evaluation drives continuous RAG system improvement
+6. **Production Considerations**: Monitoring, caching, and scalability are essential for real-world RAG
 
-## 🔗 Next Lesson
+## ⚠️ Common Pitfalls
 
-[Lesson 8: Agents & Tools](../lesson-08-agents-tools/) - Learn to build autonomous AI agents with tool-calling capabilities and reasoning frameworks.
+- Poor document chunking leading to fragmented context
+- Over-relying on similarity search without considering relevance
+- Ignoring retrieval quality in favor of generation metrics
+- Not handling cases where relevant information isn't retrieved
+- Insufficient context window management for long documents
+- Lack of proper evaluation and monitoring in production
+
+## 🎯 Performance Optimization Tips
+
+1. **Retrieval Optimization**:
+   - Experiment with different chunk sizes and overlap
+   - Use hybrid search combining dense and sparse retrieval
+   - Implement re-ranking for better precision
+
+2. **Generation Enhancement**:
+   - Optimize prompts for your specific use case
+   - Use context compression techniques
+   - Implement proper citation and source attribution
+
+3. **System Performance**:
+   - Cache frequent queries and embeddings
+   - Use efficient vector databases
+   - Implement streaming for real-time responses
+
+4. **Cost Management**:
+   - Balance retrieval depth with API costs
+   - Use embedding model caching
+   - Optimize context length for generation models
 
 ---
 
-**Duration:** ~1.5 hours  
+**Duration:** ~2 hours  
 **Difficulty:** Advanced  
-**Prerequisites:** Lessons 1-6 completed 
+**Prerequisites:** Lessons 1-6 completed, especially Vector Stores lesson 

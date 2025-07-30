@@ -1,0 +1,19 @@
+# Document Processing with LangChain
+
+This is a sample document to demonstrate document processing capabilities.
+
+## Introduction
+Document processing is a crucial part of building RAG (Retrieval Augmented Generation) systems. 
+LangChain provides various document loaders and text splitters to handle different file formats.
+
+## Key Concepts
+1. Document Loaders: Extract text from various file formats
+2. Text Splitters: Break down large documents into manageable chunks
+3. Document Transformers: Clean and enrich document content
+4. Processing Pipelines: Automate the entire document processing workflow
+
+## Best Practices
+- Choose appropriate chunk sizes based on your use case
+- Maintain semantic coherence when splitting documents
+- Add metadata to improve retrieval accuracy
+- Validate document quality before processing

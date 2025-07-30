@@ -1,0 +1,114 @@
+[tool.poetry]
+name = "lesson-08-agents-tools"
+version = "0.1.0"
+description = "LangChain Course - Lesson 8: Agents & Tools"
+authors = ["Your Name <your.email@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+langchain = "^0.3.0"
+langchain-openai = "^0.3.3"
+langchain-anthropic = "^0.3.0"
+langchain-ollama = "^0.3.0"
+langchain-google-genai = "^2.1.0"
+langchain-deepseek = "^0.1.0"
+langchain-community = "^0.3.0"
+langchain-core = "^0.3.33"
+langchain-experimental = "^0.3.0"
+langchain-text-splitters = "^0.3.0"
+langgraph = "^0.2.0"
+python-dotenv = "^1.0.0"
+pydantic = "^2.5.0"
+pydantic-settings = "^2.1.0"
+
+# Agent and tool dependencies
+duckduckgo-search = "^6.2.0"
+wikipedia = "^1.4.0"
+google-search-results = "^2.4.2"
+requests = "^2.32.0"
+beautifulsoup4 = "^4.12.0"
+lxml = "^5.3.0"
+html2text = "^2024.2.26"
+python-json-logger = "^2.0.7"
+
+# Math and computation tools
+sympy = "^1.13.0"
+numpy = "^1.26.0"
+pandas = "^2.2.0"
+matplotlib = "^3.9.0"
+scipy = "^1.14.0"
+
+# API integration tools
+openapi-spec-validator = "^0.7.1"
+jsonschema = "^4.23.0"
+aiohttp = "^3.10.0"
+httpx = "^0.27.0"
+
+# Code execution and analysis tools
+ast-decompiler = "^0.7.0"
+black = "^23.12.0"
+flake8 = "^6.1.0"
+pylint = "^3.2.0"
+
+# File and document processing
+PyPDF2 = "^3.0.1"
+python-docx = "^1.1.0"
+openpyxl = "^3.1.0"
+csv = "^1.0"
+
+# Database and storage tools
+sqlite3 = "^0.0.0"  # Built-in
+psycopg2-binary = "^2.9.9"
+redis = "^5.0.0"
+
+# Monitoring and logging
+prometheus-client = "^0.20.0"
+structlog = "^24.4.0"
+rich = "^13.7.0"
+tqdm = "^4.66.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.0"
+pytest-asyncio = "^0.23.0"
+black = "^23.12.0"
+isort = "^5.13.0"
+flake8 = "^6.1.0"
+mypy = "^1.11.0"
+jupyter = "^1.0.0"
+ipykernel = "^6.29.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 88
+target-version = ['py311']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+known_first_party = ["lesson_08"]
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true

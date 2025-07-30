@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "lesson-03-chains"
+name = "lesson-07-rag-systems"
 version = "0.1.0"
-description = "LangChain Course - Lesson 3: Chains & Sequential Processing"
+description = "LangChain Course - Lesson 7: RAG (Retrieval Augmented Generation) Systems"
 authors = ["Your Name <your.email@example.com>"]
 readme = "README.md"
 
@@ -15,16 +15,25 @@ langchain-google-genai = "^2.1.0"
 langchain-deepseek = "^0.1.0"
 langchain-community = "^0.3.0"
 langchain-core = "^0.3.33"
+langchain-chroma = "^0.1.0"
+langchain-text-splitters = "^0.3.0"
 python-dotenv = "^1.0.0"
 pydantic = "^2.5.0"
-requests = "^2.31.0"
-numpy = "^1.24.0"
+pydantic-settings = "^2.1.0"
+chromadb = "^0.5.0"
+faiss-cpu = "^1.8.0"
+sentence-transformers = "^3.0.0"
+pypdf = "^4.0.0"
+unstructured = "^0.15.0"
+pandas = "^2.2.0"
+numpy = "^1.26.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.0"
 black = "^23.12.0"
 isort = "^5.13.0"
 flake8 = "^6.1.0"
+jupyter = "^1.0.0"
 
 [build-system]
 requires = ["poetry-core"]
@@ -52,4 +61,4 @@ extend-exclude = '''
 profile = "black"
 multi_line_output = 3
 line_length = 88
-known_first_party = ["lesson_03"] 
+known_first_party = ["lesson_07"]

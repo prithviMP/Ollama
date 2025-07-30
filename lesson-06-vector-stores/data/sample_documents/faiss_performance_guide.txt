@@ -1,0 +1,133 @@
+FAISS Performance Optimization Guide
+
+FAISS (Facebook AI Similarity Search) is a library for efficient similarity search and clustering of dense vectors. It provides both CPU and GPU implementations and offers various indexing methods optimized for different use cases and performance requirements.
+
+FAISS Index Types:
+
+1. Flat Indexes (Exact Search)
+   - IndexFlatL2: Exact L2 distance search
+   - IndexFlatIP: Exact inner product search
+   - Best for: Small datasets, baseline comparisons
+   - Performance: O(n) search time
+
+2. IVF (Inverted File) Indexes
+   - IndexIVFFlat: Quantization with flat codes
+   - IndexIVFPQ: Product quantization
+   - Best for: Medium to large datasets
+   - Performance: Sub-linear search time
+
+3. HNSW (Hierarchical NSW)
+   - IndexHNSWFlat: HNSW with flat vectors
+   - Best for: Fast approximate search
+   - Memory intensive but very fast queries
+
+4. PQ (Product Quantization)
+   - IndexPQ: Compressed vector storage
+   - Best for: Memory-constrained environments
+   - Trade-off: Reduced accuracy for smaller memory
+
+Index Selection Guidelines:
+
+Dataset Size Considerations:
+- < 10K vectors: Use Flat indexes
+- 10K - 1M vectors: Use IVF indexes
+- > 1M vectors: Use HNSW or advanced IVF variants
+
+Memory Constraints:
+- High memory: Use Flat or HNSW
+- Medium memory: Use IVF
+- Low memory: Use PQ variants
+
+Accuracy Requirements:
+- Exact results needed: Use Flat indexes
+- High accuracy: Use HNSW
+- Balanced: Use IVF
+- Memory priority: Use PQ
+
+Performance Optimization Techniques:
+
+1. Index Training
+   - Use representative training data
+   - Train with sufficient sample size
+   - Consider data distribution in training
+
+2. Search Parameters
+   - Tune nprobe for IVF indexes
+   - Adjust ef for HNSW indexes
+   - Balance accuracy vs. speed
+
+3. GPU Acceleration
+   - Use GPU indexes for large datasets
+   - Batch queries for better GPU utilization
+   - Consider GPU memory limitations
+
+4. Preprocessing
+   - Normalize vectors when appropriate
+   - Consider dimensionality reduction (PCA)
+   - Remove duplicate or near-duplicate vectors
+
+Memory Management:
+
+1. Index Size Estimation
+   - Calculate memory requirements upfront
+   - Plan for index growth
+   - Consider compressed index options
+
+2. Loading Strategies
+   - Memory-map large indexes
+   - Use multiple smaller indexes if needed
+   - Implement index sharding for scale
+
+3. Caching
+   - Cache frequently accessed vectors
+   - Use appropriate cache eviction policies
+   - Monitor cache hit rates
+
+Production Deployment:
+
+1. Index Maintenance
+   - Plan for index updates and rebuilds
+   - Implement versioning strategies
+   - Monitor index quality over time
+
+2. Scaling Strategies
+   - Horizontal scaling with multiple indexes
+   - Load balancing across index replicas
+   - Consider federated search approaches
+
+3. Monitoring
+   - Track search latency and throughput
+   - Monitor memory usage and growth
+   - Alert on accuracy degradation
+
+Code Example - Index Creation and Optimization:
+
+```python
+import faiss
+import numpy as np
+
+# Create and train index
+dimension = 768
+index = faiss.IndexIVFFlat(
+    faiss.IndexFlatL2(dimension), 
+    dimension, 
+    100  # number of clusters
+)
+
+# Train the index
+training_data = np.random.random((10000, dimension)).astype('float32')
+index.train(training_data)
+
+# Add vectors
+vectors = np.random.random((100000, dimension)).astype('float32')
+index.add(vectors)
+
+# Optimize search parameters
+index.nprobe = 10  # search 10 clusters
+
+# Perform search
+query = np.random.random((1, dimension)).astype('float32')
+distances, indices = index.search(query, k=5)
+```
+
+FAISS provides excellent performance for similarity search tasks when properly configured and optimized for your specific use case and constraints.

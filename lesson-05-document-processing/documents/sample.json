@@ -1,0 +1,23 @@
+{
+  "title": "LangChain Document Processing",
+  "content": "This JSON document demonstrates how to process structured data.",
+  "metadata": {
+    "author": "LangChain Course",
+    "category": "Education",
+    "tags": [
+      "nlp",
+      "document-processing",
+      "langchain"
+    ]
+  },
+  "sections": [
+    {
+      "title": "Getting Started",
+      "content": "Learn the basics of document processing with practical examples."
+    },
+    {
+      "title": "Advanced Techniques",
+      "content": "Explore advanced document processing patterns and optimizations."
+    }
+  ]
+}

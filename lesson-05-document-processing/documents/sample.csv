@@ -1,0 +1,6 @@
+name,description,category
+PDF Loader,Extracts text from PDF files,Document Loader
+Text Splitter,Splits text into manageable chunks,Text Processing
+Vector Store,Stores document embeddings for retrieval,Storage
+RAG System,Retrieval Augmented Generation system,Application
+Embeddings,Vector representations of text,ML Model

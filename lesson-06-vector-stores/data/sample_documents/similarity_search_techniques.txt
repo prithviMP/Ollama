@@ -1,0 +1,78 @@
+Similarity Search Techniques in Vector Databases
+
+Similarity search is the core operation in vector databases, enabling the retrieval of vectors that are most similar to a given query vector. Understanding different similarity metrics and search algorithms is crucial for optimizing vector database performance.
+
+Distance Metrics:
+
+1. Cosine Similarity
+   - Measures the cosine of the angle between two vectors
+   - Range: -1 to 1 (1 being most similar)
+   - Best for: Text and normalized embeddings
+   - Formula: cos(θ) = (A·B) / (||A|| × ||B||)
+
+2. Euclidean Distance
+   - Straight-line distance between two points
+   - Range: 0 to infinity (0 being most similar)
+   - Best for: Computer vision and spatial data
+   - Formula: d = √Σ(ai - bi)²
+
+3. Manhattan Distance (L1)
+   - Sum of absolute differences between coordinates
+   - Range: 0 to infinity
+   - Best for: Sparse data and feature selection
+   - Formula: d = Σ|ai - bi|
+
+4. Dot Product
+   - Simple multiplication and sum of vector components
+   - Best for: Fast approximate searches
+   - Formula: A·B = Σ(ai × bi)
+
+Search Algorithms:
+
+1. Exact Search
+   - Brute force comparison with all vectors
+   - Guaranteed accuracy but slow for large datasets
+   - Time complexity: O(n)
+
+2. Approximate Nearest Neighbor (ANN)
+   - Trade accuracy for speed
+   - Various algorithms: LSH, NSW, HNSW
+   - Time complexity: O(log n) typically
+
+3. Hierarchical Navigable Small World (HNSW)
+   - Multi-layer graph structure
+   - Excellent performance for high-dimensional data
+   - Used by many modern vector databases
+
+4. Locality Sensitive Hashing (LSH)
+   - Hash similar vectors to same buckets
+   - Good for very high-dimensional sparse data
+   - Probabilistic guarantees
+
+Optimization Techniques:
+
+1. Indexing Strategies
+   - Choose appropriate index type for your data
+   - Consider memory vs. accuracy trade-offs
+   - Regular index maintenance and optimization
+
+2. Query Optimization
+   - Batch similar queries together
+   - Use appropriate similarity thresholds
+   - Implement result caching for frequent queries
+
+3. Hardware Considerations
+   - GPU acceleration for large-scale searches
+   - Memory mapping for large datasets
+   - SSD storage for better I/O performance
+
+4. Hybrid Approaches
+   - Combine exact and approximate methods
+   - Multi-stage filtering (coarse then fine)
+   - Parallel processing across multiple cores
+
+Production Considerations:
+- Monitor search latency and throughput
+- Implement circuit breakers for failed searches
+- Plan for index updates and maintenance windows
+- Consider data partitioning strategies for scale

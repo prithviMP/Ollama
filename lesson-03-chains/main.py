@@ -139,10 +139,10 @@ def demonstrate_sequential_chains(llm):
     print("\n1. SimpleSequentialChain: Story Generation Pipeline")
     print("-" * 50)
     
-    # First chain: Generate story outline
+    # First chain: Generate story outline - FIXED to use single input
     outline_prompt = PromptTemplate(
-        input_variables=["genre", "setting"],
-        template="""Create a brief story outline for a {genre} story set in {setting}.
+        input_variables=["story_request"],  # Changed from ["genre", "setting"]
+        template="""Create a brief story outline based on this request: {story_request}
 Include the main character, conflict, and basic plot structure in 2-3 sentences."""
     )
     outline_chain = LLMChain(llm=llm, prompt=outline_prompt)
@@ -165,7 +165,7 @@ Story:"""
     )
     
     if llm:
-        story_result = story_pipeline.invoke({"input": "science fiction, Mars colony"})
+        story_result = story_pipeline.invoke({"input": "science fiction story set on Mars colony"})
         print("Generated Story:")
         print(story_result['output'][:300] + "..." if len(story_result['output']) > 300 else story_result['output'])
     else:
