@@ -1,0 +1,454 @@
+{
+  "agent_configurations": {
+    "research_assistant": {
+      "name": "Advanced Research Assistant",
+      "description": "Comprehensive research agent with multi-source information gathering and analysis capabilities",
+      "version": "1.0.0",
+      "tools": [
+        "web_search",
+        "fact_checker", 
+        "report_generator",
+        "citation_manager",
+        "knowledge_graph"
+      ],
+      "configuration": {
+        "max_iterations": 10,
+        "timeout_seconds": 300,
+        "memory_type": "summary_buffer",
+        "temperature": 0.1,
+        "search_depth": "comprehensive",
+        "fact_check_threshold": 0.8,
+        "citation_style": "academic"
+      },
+      "capabilities": [
+        "Multi-source research",
+        "Information synthesis",
+        "Fact verification",
+        "Citation management",
+        "Report generation",
+        "Confidence scoring"
+      ],
+      "limitations": [
+        "Real-time data access limited to available APIs",
+        "Cannot access proprietary databases",
+        "Fact-checking accuracy depends on source quality"
+      ],
+      "use_cases": [
+        "Academic research projects",
+        "Market analysis reports",
+        "Due diligence investigations",
+        "Content creation support",
+        "Competitive intelligence"
+      ]
+    },
+
+    "customer_service_agent": {
+      "name": "Intelligent Customer Service Agent",
+      "description": "AI-powered customer service agent with CRM integration and sentiment analysis",
+      "version": "1.2.0",
+      "tools": [
+        "crm_lookup",
+        "knowledge_search",
+        "ticket_manager",
+        "sentiment_analyzer",
+        "escalation_manager"
+      ],
+      "configuration": {
+        "max_iterations": 8,
+        "timeout_seconds": 120,
+        "memory_type": "conversation_buffer",
+        "temperature": 0.3,
+        "escalation_threshold": -0.3,
+        "satisfaction_target": 4.0,
+        "response_tone": "professional_friendly"
+      },
+      "capabilities": [
+        "Customer profile lookup",
+        "Issue resolution",
+        "Sentiment monitoring",
+        "Escalation management",
+        "Ticket creation and tracking",
+        "Knowledge base search"
+      ],
+      "escalation_rules": [
+        {
+          "trigger": "negative_sentiment",
+          "threshold": -0.5,
+          "action": "human_escalation"
+        },
+        {
+          "trigger": "conversation_length", 
+          "threshold": 10,
+          "action": "supervisor_review"
+        },
+        {
+          "trigger": "keywords",
+          "values": ["legal", "lawsuit", "manager", "supervisor"],
+          "action": "immediate_escalation"
+        }
+      ],
+      "success_metrics": [
+        "First contact resolution rate",
+        "Customer satisfaction score",
+        "Average resolution time",
+        "Escalation rate",
+        "Knowledge base hit rate"
+      ]
+    },
+
+    "code_analysis_agent": {
+      "name": "Expert Code Analysis Agent", 
+      "description": "Advanced code analysis and review agent with security and performance focus",
+      "version": "2.0.0",
+      "tools": [
+        "code_analyzer",
+        "security_scanner",
+        "test_runner",
+        "performance_profiler",
+        "documentation_generator"
+      ],
+      "configuration": {
+        "max_iterations": 12,
+        "timeout_seconds": 600,
+        "memory_type": "buffer",
+        "temperature": 0.0,
+        "analysis_depth": "comprehensive",
+        "security_level": "strict",
+        "performance_threshold": 0.8
+      },
+      "supported_languages": [
+        "python",
+        "javascript",
+        "typescript",
+        "java",
+        "go",
+        "rust",
+        "c++",
+        "c#"
+      ],
+      "analysis_categories": [
+        {
+          "category": "code_quality",
+          "metrics": ["complexity", "maintainability", "readability"],
+          "weight": 0.3
+        },
+        {
+          "category": "security",
+          "metrics": ["vulnerabilities", "secrets", "unsafe_patterns"],
+          "weight": 0.4
+        },
+        {
+          "category": "performance",
+          "metrics": ["algorithmic_complexity", "memory_usage", "bottlenecks"],
+          "weight": 0.2
+        },
+        {
+          "category": "testing",
+          "metrics": ["coverage", "test_quality", "edge_cases"],
+          "weight": 0.1
+        }
+      ],
+      "reporting": {
+        "format": "comprehensive",
+        "include_metrics": true,
+        "include_suggestions": true,
+        "include_examples": true,
+        "severity_levels": ["critical", "high", "medium", "low", "info"]
+      }
+    },
+
+    "data_analyst_agent": {
+      "name": "Professional Data Analysis Agent",
+      "description": "Specialized agent for data processing, statistical analysis, and visualization",
+      "version": "1.5.0", 
+      "tools": [
+        "data_processor",
+        "statistical_analyzer",
+        "visualization_generator",
+        "trend_detector",
+        "forecast_model"
+      ],
+      "configuration": {
+        "max_iterations": 15,
+        "timeout_seconds": 900,
+        "memory_type": "summary_buffer",
+        "temperature": 0.05,
+        "confidence_threshold": 0.85,
+        "visualization_style": "professional",
+        "statistical_significance": 0.05
+      },
+      "data_sources": [
+        "csv_files",
+        "json_data",
+        "database_connections", 
+        "api_endpoints",
+        "real_time_streams"
+      ],
+      "analysis_methods": [
+        "descriptive_statistics",
+        "inferential_statistics",
+        "time_series_analysis",
+        "regression_analysis",
+        "clustering_algorithms",
+        "anomaly_detection",
+        "predictive_modeling"
+      ],
+      "output_formats": [
+        "executive_summary",
+        "detailed_report",
+        "interactive_dashboard",
+        "static_visualizations",
+        "data_export"
+      ]
+    },
+
+    "content_writer_agent": {
+      "name": "Professional Content Writer Agent",
+      "description": "AI content creation agent with style adaptation and SEO optimization",
+      "version": "1.3.0",
+      "tools": [
+        "content_generator",
+        "style_analyzer",
+        "seo_optimizer",
+        "grammar_checker",
+        "plagiarism_detector"
+      ],
+      "configuration": {
+        "max_iterations": 8,
+        "timeout_seconds": 240,
+        "memory_type": "buffer",
+        "temperature": 0.7,
+        "creativity_level": "balanced",
+        "target_readability": "grade_8",
+        "seo_optimization": true
+      },
+      "content_types": [
+        {
+          "type": "blog_post",
+          "typical_length": "800-1500 words",
+          "structure": ["introduction", "main_content", "conclusion"],
+          "seo_requirements": true
+        },
+        {
+          "type": "product_description",
+          "typical_length": "100-300 words", 
+          "structure": ["features", "benefits", "specifications"],
+          "seo_requirements": true
+        },
+        {
+          "type": "technical_documentation",
+          "typical_length": "500-2000 words",
+          "structure": ["overview", "detailed_sections", "examples"],
+          "seo_requirements": false
+        },
+        {
+          "type": "marketing_copy",
+          "typical_length": "50-200 words",
+          "structure": ["headline", "body", "call_to_action"],
+          "seo_requirements": true
+        }
+      ],
+      "style_guidelines": {
+        "tone_options": ["professional", "casual", "friendly", "authoritative", "conversational"],
+        "voice_options": ["active", "passive", "mixed"],
+        "perspective": ["first_person", "second_person", "third_person"],
+        "formality": ["formal", "informal", "neutral"]
+      }
+    },
+
+    "security_specialist_agent": {
+      "name": "Cybersecurity Specialist Agent",
+      "description": "Advanced security analysis and monitoring agent with threat detection capabilities",
+      "version": "2.1.0",
+      "tools": [
+        "vulnerability_scanner",
+        "threat_detector",
+        "log_analyzer",
+        "security_reporter",
+        "compliance_checker"
+      ],
+      "configuration": {
+        "max_iterations": 20,
+        "timeout_seconds": 1200,
+        "memory_type": "persistent",
+        "temperature": 0.0,
+        "alert_threshold": "medium",
+        "scan_depth": "comprehensive",
+        "compliance_frameworks": ["SOC2", "ISO27001", "GDPR", "HIPAA"]
+      },
+      "security_domains": [
+        {
+          "domain": "network_security",
+          "tools": ["port_scanner", "traffic_analyzer", "firewall_config"],
+          "priority": "high"
+        },
+        {
+          "domain": "application_security", 
+          "tools": ["code_scanner", "dependency_checker", "input_validator"],
+          "priority": "high"
+        },
+        {
+          "domain": "data_security",
+          "tools": ["encryption_checker", "access_auditor", "data_classifier"],
+          "priority": "critical"
+        },
+        {
+          "domain": "infrastructure_security",
+          "tools": ["config_scanner", "patch_checker", "baseline_auditor"],
+          "priority": "medium"
+        }
+      ],
+      "threat_categories": [
+        "malware",
+        "phishing", 
+        "sql_injection",
+        "xss_attacks",
+        "privilege_escalation",
+        "data_exfiltration",
+        "ddos_attacks",
+        "insider_threats"
+      ],
+      "response_protocols": [
+        {
+          "severity": "critical",
+          "response_time": "immediate",
+          "actions": ["isolate_system", "notify_admin", "collect_evidence"]
+        },
+        {
+          "severity": "high",
+          "response_time": "5_minutes",
+          "actions": ["investigate_threat", "apply_mitigations", "update_rules"]
+        },
+        {
+          "severity": "medium",
+          "response_time": "30_minutes", 
+          "actions": ["log_incident", "schedule_review", "update_monitoring"]
+        }
+      ]
+    }
+  },
+
+  "platform_configurations": {
+    "development": {
+      "environment": "dev",
+      "debug_mode": true,
+      "mock_external_apis": true,
+      "rate_limits": {
+        "requests_per_minute": 100,
+        "burst_limit": 20
+      },
+      "resource_limits": {
+        "cpu_cores": 2,
+        "memory_gb": 4,
+        "storage_gb": 10
+      },
+      "monitoring": {
+        "metrics_enabled": true,
+        "logging_level": "debug",
+        "trace_requests": true
+      }
+    },
+
+    "staging": {
+      "environment": "staging",
+      "debug_mode": false,
+      "mock_external_apis": false,
+      "rate_limits": {
+        "requests_per_minute": 500,
+        "burst_limit": 50
+      },
+      "resource_limits": {
+        "cpu_cores": 4,
+        "memory_gb": 8,
+        "storage_gb": 50
+      },
+      "monitoring": {
+        "metrics_enabled": true,
+        "logging_level": "info",
+        "trace_requests": false
+      }
+    },
+
+    "production": {
+      "environment": "prod",
+      "debug_mode": false,
+      "mock_external_apis": false,
+      "rate_limits": {
+        "basic_user": {
+          "requests_per_minute": 60,
+          "burst_limit": 10
+        },
+        "premium_user": {
+          "requests_per_minute": 300,
+          "burst_limit": 30
+        },
+        "admin_user": {
+          "requests_per_minute": 1000,
+          "burst_limit": 100
+        }
+      },
+      "resource_limits": {
+        "cpu_cores": 16,
+        "memory_gb": 32,
+        "storage_gb": 500
+      },
+      "monitoring": {
+        "metrics_enabled": true,
+        "logging_level": "warn",
+        "trace_requests": false,
+        "alerting_enabled": true,
+        "health_checks": true
+      },
+      "security": {
+        "encryption_at_rest": true,
+        "encryption_in_transit": true,
+        "audit_logging": true,
+        "vulnerability_scanning": true,
+        "penetration_testing": "quarterly"
+      }
+    }
+  },
+
+  "tool_configurations": {
+    "web_search": {
+      "providers": ["duckduckgo", "google", "bing"],
+      "default_provider": "duckduckgo",
+      "max_results": 10,
+      "cache_ttl_seconds": 3600,
+      "safe_search": true,
+      "timeout_seconds": 30
+    },
+
+    "calculator": {
+      "precision": 10,
+      "max_iterations": 100,
+      "allowed_functions": ["basic", "scientific", "statistical"],
+      "security_mode": "strict"
+    },
+
+    "file_manager": {
+      "workspace_directory": "./agent_workspace",
+      "max_file_size_mb": 10,
+      "allowed_extensions": [".txt", ".json", ".csv", ".md", ".log"],
+      "safe_mode": true,
+      "backup_enabled": true
+    },
+
+    "email": {
+      "smtp_server": "localhost",
+      "smtp_port": 587,
+      "safe_mode": true,
+      "rate_limit_per_hour": 10,
+      "allowed_domains": ["example.com", "test.com"],
+      "template_validation": true
+    },
+
+    "weather": {
+      "api_provider": "mock",
+      "cache_ttl_seconds": 600,
+      "default_units": "metric",
+      "max_forecast_days": 10,
+      "alert_monitoring": true
+    }
+  }
+}

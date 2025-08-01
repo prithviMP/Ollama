@@ -284,7 +284,7 @@ def conversation_buffer_window_memory_example(llm):
     try:
         # Create window memory (keep last 3 exchanges)
         memory = ConversationBufferWindowMemory(
-            k=3,
+            k=1,
             return_messages=True
         )
         

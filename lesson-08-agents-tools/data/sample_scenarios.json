@@ -1,0 +1,315 @@
+{
+  "research_scenarios": [
+    {
+      "id": "research_001",
+      "title": "AI Market Analysis",
+      "description": "Research current trends in artificial intelligence market, focusing on enterprise adoption rates and investment patterns",
+      "complexity": "high",
+      "expected_duration": "30-45 minutes",
+      "required_tools": ["web_search", "fact_checker", "report_generator"],
+      "success_criteria": [
+        "Identify at least 5 key market trends",
+        "Provide investment statistics from credible sources",
+        "Generate comprehensive report with citations"
+      ],
+      "sample_queries": [
+        "AI enterprise adoption rates 2024",
+        "Artificial intelligence investment trends",
+        "Machine learning market size forecast"
+      ]
+    },
+    {
+      "id": "research_002", 
+      "title": "Climate Change Solutions",
+      "description": "Investigate innovative climate change mitigation technologies and their current deployment status",
+      "complexity": "medium",
+      "expected_duration": "20-30 minutes",
+      "required_tools": ["web_search", "fact_checker"],
+      "success_criteria": [
+        "Identify 3-5 promising technologies",
+        "Assess current deployment status",
+        "Verify claims through fact-checking"
+      ],
+      "sample_queries": [
+        "Carbon capture technology 2024",
+        "Renewable energy innovations",
+        "Climate mitigation strategies"
+      ]
+    }
+  ],
+  
+  "customer_service_scenarios": [
+    {
+      "id": "cs_001",
+      "title": "Account Access Issues",
+      "description": "Customer unable to access their premium account after password reset",
+      "customer_profile": {
+        "id": "CUST001",
+        "name": "Sarah Johnson",
+        "tier": "Premium",
+        "account_age": "2 years",
+        "previous_issues": ["Payment inquiry", "Feature request"]
+      },
+      "initial_message": "Hi, I reset my password yesterday but I still can't log into my premium account. I have an important presentation tomorrow and really need access to my files!",
+      "sentiment": "frustrated",
+      "priority": "high",
+      "expected_resolution": "Account access restored within 15 minutes",
+      "escalation_triggers": ["multiple failed attempts", "mention of cancellation", "legal threats"]
+    },
+    {
+      "id": "cs_002",
+      "title": "Billing Question",
+      "description": "Customer confused about recent charge on their credit card",
+      "customer_profile": {
+        "id": "CUST002",
+        "name": "Mike Chen",
+        "tier": "Standard",
+        "account_age": "6 months",
+        "previous_issues": []
+      },
+      "initial_message": "I see a charge of $29.99 on my card but I thought my plan was only $19.99. Can you explain what this is for?",
+      "sentiment": "neutral",
+      "priority": "medium",
+      "expected_resolution": "Billing explanation provided",
+      "escalation_triggers": ["dispute claim", "refund demand", "fraud accusation"]
+    }
+  ],
+
+  "code_analysis_scenarios": [
+    {
+      "id": "code_001",
+      "title": "Python Function Optimization",
+      "description": "Analyze and optimize a recursive fibonacci function for performance and readability",
+      "code_sample": "def fibonacci(n):\n    if n <= 1:\n        return n\n    else:\n        return fibonacci(n-1) + fibonacci(n-2)\n\ndef main():\n    for i in range(10):\n        print(f\"fib({i}) = {fibonacci(i)}\")",
+      "expected_issues": [
+        "Exponential time complexity",
+        "No input validation",
+        "Stack overflow risk for large inputs",
+        "Missing docstring"
+      ],
+      "optimization_suggestions": [
+        "Implement memoization",
+        "Use iterative approach",
+        "Add input validation",
+        "Include comprehensive documentation"
+      ]
+    },
+    {
+      "id": "code_002",
+      "title": "Security Vulnerability Assessment", 
+      "description": "Identify security issues in a simple user authentication function",
+      "code_sample": "import hashlib\n\ndef authenticate_user(username, password):\n    # Hardcoded admin credentials\n    if username == 'admin' and password == 'admin123':\n        return True\n    \n    # Simple hash check\n    user_hash = hashlib.md5(password.encode()).hexdigest()\n    stored_hash = get_stored_hash(username)\n    \n    return user_hash == stored_hash\n\ndef get_stored_hash(username):\n    # Mock database lookup\n    users = {'user1': '5d41402abc4b2a76b9719d911017c592'}\n    return users.get(username)",
+      "expected_issues": [
+        "Hardcoded credentials",
+        "Weak hashing algorithm (MD5)",
+        "No salt in password hashing",
+        "Timing attack vulnerability",
+        "No rate limiting"
+      ],
+      "security_recommendations": [
+        "Remove hardcoded credentials",
+        "Use bcrypt or similar for password hashing",
+        "Implement proper salt generation",
+        "Add constant-time comparison",
+        "Implement rate limiting and account lockout"
+      ]
+    }
+  ],
+
+  "multi_agent_scenarios": [
+    {
+      "id": "multi_001",
+      "title": "Product Launch Campaign",
+      "description": "Coordinate multiple agents to plan and execute a comprehensive product launch campaign",
+      "agents_required": [
+        {
+          "type": "researcher",
+          "role": "Market research and competitor analysis",
+          "deliverables": ["Market analysis report", "Competitor feature comparison"]
+        },
+        {
+          "type": "analyst", 
+          "role": "Data analysis and trend identification",
+          "deliverables": ["Customer segment analysis", "Pricing recommendations"]
+        },
+        {
+          "type": "writer",
+          "role": "Content creation and messaging",
+          "deliverables": ["Marketing copy", "Press release", "Product descriptions"]
+        },
+        {
+          "type": "reviewer",
+          "role": "Quality assurance and approval",
+          "deliverables": ["Content review", "Campaign approval", "Risk assessment"]
+        }
+      ],
+      "workflow_steps": [
+        "Research phase: Market and competitor analysis",
+        "Analysis phase: Process research data and identify opportunities", 
+        "Creation phase: Develop marketing materials and messaging",
+        "Review phase: Quality check and final approval",
+        "Coordination phase: Ensure all deliverables align"
+      ],
+      "success_metrics": [
+        "All agents complete their assigned tasks",
+        "Deliverables meet quality standards",
+        "Timeline adherence (under 2 hours)",
+        "Consistent messaging across all materials"
+      ]
+    },
+    {
+      "id": "multi_002",
+      "title": "Crisis Response Coordination",
+      "description": "Simulate multi-agent response to a hypothetical system outage",
+      "agents_required": [
+        {
+          "type": "monitor",
+          "role": "System monitoring and alerting",
+          "deliverables": ["Incident detection", "Impact assessment", "Status updates"]
+        },
+        {
+          "type": "analyst",
+          "role": "Root cause analysis",
+          "deliverables": ["Problem diagnosis", "Solution recommendations"]
+        },
+        {
+          "type": "communicator",
+          "role": "Stakeholder communication",
+          "deliverables": ["Status notifications", "Customer updates", "Internal alerts"]
+        },
+        {
+          "type": "coordinator",
+          "role": "Response coordination and tracking",
+          "deliverables": ["Action plan", "Resource allocation", "Progress tracking"]
+        }
+      ],
+      "scenario_timeline": [
+        "T+0: System outage detected",
+        "T+5min: Initial impact assessment",
+        "T+10min: Stakeholder notification",
+        "T+15min: Root cause analysis begins",
+        "T+30min: Solution implementation",
+        "T+45min: System recovery verification"
+      ]
+    }
+  ],
+
+  "production_scenarios": [
+    {
+      "id": "prod_001",
+      "title": "Multi-User Load Testing",
+      "description": "Simulate multiple users accessing different agents simultaneously to test platform scalability",
+      "test_users": [
+        {
+          "id": "user_basic_001",
+          "role": "basic",
+          "concurrent_requests": 5,
+          "agents_accessed": ["public_chatbot"],
+          "expected_behavior": "Standard rate limiting, normal response times"
+        },
+        {
+          "id": "user_premium_001", 
+          "role": "premium",
+          "concurrent_requests": 15,
+          "agents_accessed": ["premium_analyst", "research_assistant"],
+          "expected_behavior": "Higher rate limits, priority processing"
+        },
+        {
+          "id": "user_admin_001",
+          "role": "admin", 
+          "concurrent_requests": 25,
+          "agents_accessed": ["all_agents"],
+          "expected_behavior": "No rate limits, full access, monitoring privileges"
+        }
+      ],
+      "performance_metrics": [
+        "Average response time per user tier",
+        "Successful request percentage",
+        "Rate limit enforcement accuracy",
+        "Resource utilization efficiency",
+        "Error rate by user type"
+      ],
+      "success_criteria": [
+        "All user tiers function within expected parameters",
+        "No system crashes or data corruption",
+        "Rate limiting works correctly",
+        "Resource allocation is fair and efficient"
+      ]
+    },
+    {
+      "id": "prod_002",
+      "title": "Security Incident Simulation",
+      "description": "Test platform security controls by simulating various attack scenarios",
+      "attack_scenarios": [
+        {
+          "type": "rate_limit_abuse",
+          "description": "Attempt to exceed rate limits with rapid requests",
+          "expected_response": "Requests blocked, user temporarily suspended"
+        },
+        {
+          "type": "unauthorized_access",
+          "description": "Attempt to access restricted agents without proper permissions",
+          "expected_response": "Access denied, security incident logged"
+        },
+        {
+          "type": "malicious_input",
+          "description": "Submit requests containing potentially harmful content",
+          "expected_response": "Content filtered, safety controls activated"
+        },
+        {
+          "type": "resource_exhaustion",
+          "description": "Attempt to consume excessive computational resources",
+          "expected_response": "Resource limits enforced, request queued or rejected"
+        }
+      ],
+      "security_metrics": [
+        "Attack detection accuracy",
+        "Response time to security incidents", 
+        "False positive/negative rates",
+        "System stability under attack",
+        "Incident logging completeness"
+      ]
+    }
+  ],
+
+  "integration_scenarios": [
+    {
+      "id": "integration_001",
+      "title": "Cross-Platform Workflow",
+      "description": "Test agent integration with external systems and APIs",
+      "workflow_steps": [
+        {
+          "step": 1,
+          "action": "Research agent gathers market data from web APIs",
+          "tools": ["web_search", "external_api"],
+          "expected_output": "Structured market data"
+        },
+        {
+          "step": 2,
+          "action": "Analysis agent processes data and generates insights",
+          "tools": ["data_analyzer", "statistical_tools"],
+          "expected_output": "Analysis report with recommendations"
+        },
+        {
+          "step": 3,
+          "action": "Communication agent formats results for different channels",
+          "tools": ["email", "report_generator", "notification_system"],
+          "expected_output": "Multi-format deliverables"
+        },
+        {
+          "step": 4,
+          "action": "Monitoring agent tracks performance and generates metrics",
+          "tools": ["monitoring_dashboard", "analytics"],
+          "expected_output": "Performance metrics and alerts"
+        }
+      ],
+      "integration_points": [
+        "External API authentication",
+        "Data format transformation",
+        "Error handling and retries", 
+        "Cross-system communication",
+        "Result aggregation and reporting"
+      ]
+    }
+  ]
+}
